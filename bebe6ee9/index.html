@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+<meta charset="UTF-8">
+<title>インスタ×AI運用 勉強会まとめ</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 landscape; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Sans", sans-serif;
+  font-weight: 500; color: #3A3530;
+  -webkit-font-smoothing: antialiased;
+}
+.page {
+  width: 297mm; height: 210mm; padding: 10mm 13mm 12mm;
+  page-break-after: always; position: relative;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background:
+    repeating-linear-gradient(transparent, transparent 9mm, #EFE6CF 9mm, #EFE6CF 9.2mm),
+    #FBF8F1;
+}
+.page:last-child { page-break-after: auto; }
+.page > h1, .page > h2 { align-self: flex-start; flex-shrink: 0; }
+
+h1 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 23pt; color: #2C2722; font-weight: 900;
+  margin-bottom: 5mm; letter-spacing: 0.02em;
+  display: inline-block; position: relative;
+}
+h1 .hl { background: linear-gradient(transparent 55%, #FFE066 55%, #FFE066 92%, transparent 92%); padding: 0 4px; }
+h1 .tag {
+  display: inline-block; font-size: 11pt; background: #FFD84A; color: #2C2722;
+  padding: 3px 14px; border-radius: 16px; margin-right: 12px; vertical-align: middle;
+  font-weight: 700; border: 2px solid #2C2722; box-shadow: 2px 2px 0 #2C2722;
+}
+h2 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 15pt; color: #2C2722; margin: 1mm 0 3mm; font-weight: 700;
+  display: inline-block; position: relative;
+  background: linear-gradient(transparent 62%, #FFE066 62%);
+  padding: 0 6px;
+}
+h2::after { content: "\270E"; margin-left: 8px; color: #E5A572; font-size: 13pt; }
+
+.grid { display: grid; gap: 5mm; }
+.grid-2 { grid-template-columns: 1fr 1fr; }
+.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+
+/* ---- カード ---- */
+.card {
+  background: #FFFFFF; border-radius: 16px; padding: 4.5mm 5.5mm;
+  border: 2.5px solid #2C2722; box-shadow: 3px 4px 0 #2C2722;
+}
+.card.accent-blue { background: #F2FAFD; }
+.card.accent-green { background: #F5FBEF; }
+.card.accent-orange { background: #FFF7EE; }
+.card.accent-yellow { background: #FFFBE6; }
+.card.accent-red { background: #FBE9E9; }
+.card.accent-pink { background: #FDEEF2; }
+.card h3 {
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 13.5pt; color: #2C2722; margin-bottom: 3mm; font-weight: 900;
+  padding-bottom: 2.5mm; border-bottom: 2px dashed #C8BFA8;
+  display: flex; align-items: center; gap: 8px;
+}
+.card .emoji { font-size: 18pt; }
+
+/* ---- 強弱システム ---- */
+.punch { font-size: 13pt; font-weight: 900; color: #2C2722; line-height: 1.42; margin-bottom: 2.5mm; }
+.punch.sm { font-size: 11.5pt; }
+.center { text-align: center; }
+.xl { font-size: 16.5pt; font-weight: 900; }
+.kw { color: #D24E1A; font-weight: 900; }
+.sub { font-size: 9.8pt; color: #5E564B; line-height: 1.55; }
+.sub b { color: #2C2722; }
+.mark-y { background: linear-gradient(transparent 56%, #FFE066 56%); padding: 0 3px; }
+.mark-p { background: linear-gradient(transparent 56%, #FBC9D4 56%); padding: 0 3px; }
+.mark-b { background: linear-gradient(transparent 56%, #BFE3F3 56%); padding: 0 3px; }
+.mark-g { background: linear-gradient(transparent 56%, #C8E6B8 56%); padding: 0 3px; }
+
+ul { list-style: none; }
+ul li { padding: 3px 0 3px 22px; position: relative; font-size: 10pt; line-height: 1.6; }
+ul li::before { content: "\2713"; position: absolute; left: 0; color: #5BA85A; font-weight: bold; font-size: 12pt; top: 2px; }
+ul.tight li { font-size: 9.8pt; padding: 2.5px 0 2.5px 20px; line-height: 1.5; }
+
+/* ---- ラベルチップ ---- */
+.label {
+  display: inline-block; font-size: 9.5pt; padding: 1.5px 11px; border-radius: 12px;
+  border: 2px solid #2C2722; font-weight: 700; margin-right: 7px;
+  box-shadow: 2px 2px 0 #2C2722;
+}
+.label.blue { background: #BFE3F3; }
+.label.green { background: #C8E6B8; }
+.label.orange { background: #FCD3A8; }
+.label.pink { background: #FBC9D4; }
+.label.yellow { background: #FFE066; }
+
+/* ---- リード(概要) ---- */
+.lead {
+  background: #FFFFFF; padding: 4mm 6mm; border-radius: 18px;
+  border: 2.5px solid #2C2722; box-shadow: 3px 4px 0 #2C2722;
+}
+.meta { display: flex; flex-direction: column; gap: 1.8mm; margin-top: 3mm; font-size: 10pt; line-height: 1.45; }
+
+/* ---- 核心ボックス(特大) ---- */
+.core-box {
+  background: #FFFDF4; border: 3px solid #2C2722; border-radius: 16px;
+  padding: 7mm 7mm 5.5mm; margin: 6mm 0; position: relative; box-shadow: 4px 5px 0 #2C2722;
+}
+.core-box::before {
+  content: "\1F511 \4ECA\65E5\306E\6838\5FC3"; position: absolute; top: -14px; left: 18px;
+  background: #2C2722; color: #FFF; padding: 3px 15px; font-size: 11pt; font-weight: 700;
+  border-radius: 11px; box-shadow: 2px 2px 0 #C8BFA8;
+}
+.core-box .huge { font-size: 25pt; font-weight: 900; color: #2C2722; line-height: 1.28; }
+.core-box .huge2 { font-size: 17pt; font-weight: 900; color: #2C2722; line-height: 1.35; margin-top: 2mm; }
+.core-box .sub2 { font-size: 11pt; color: #4A453F; margin-top: 3mm; line-height: 1.55; }
+
+/* ---- まとめ付箋 ---- */
+.note-box {
+  background: #FFF6B8; border: 2.5px solid #2C2722; border-radius: 14px;
+  padding: 4mm 7mm 3mm; margin-top: 1.5mm; position: relative; box-shadow: 3px 4px 0 #2C2722;
+}
+.note-box::before {
+  content: "\2605 \6700\7D42\307E\3068\3081"; position: absolute; top: -13px; left: 16px;
+  background: #FF8E5A; color: #FFF; padding: 2px 12px; font-size: 10pt; font-weight: 700;
+  border: 2px solid #2C2722; border-radius: 10px; box-shadow: 2px 2px 0 #2C2722;
+}
+.note-box .mtitle { font-size: 12.5pt; font-weight: 900; color: #2C2722; margin-bottom: 2mm; display: block; }
+.summary-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6mm 5mm; font-size: 9.8pt; line-height: 1.4; }
+.summary-list .sn { font-weight: 900; color: #D24E1A; margin-right: 4px; font-size: 11pt; }
+
+/* ---- ヒーロー帯(主役メッセージ1本) ---- */
+.hero {
+  background: #2C2722; color: #FFF6E9; border-radius: 14px;
+  padding: 3mm 7mm; font-size: 12.5pt; font-weight: 700; text-align: center;
+  box-shadow: 4px 4px 0 #C8BFA8; line-height: 1.4;
+}
+.hero .heroXL { font-size: 21pt; font-weight: 900; color: #FFD84A; display: inline-block; margin-top: 0.5mm; }
+.hero .kw { color: #FFD84A; }
+.hero .mk { background: linear-gradient(transparent 55%, rgba(255,216,74,.4) 55%); padding: 0 3px; }
+
+/* ---- キーバー(三本そろって) ---- */
+.keybar {
+  background: #FFFDF4; border: 2.5px solid #2C2722; border-radius: 14px;
+  padding: 3.5mm 6mm; margin: 2.5mm 0; box-shadow: 3px 4px 0 #2C2722;
+  font-size: 13pt; text-align: center; font-weight: 700;
+}
+.keybar .xl { vertical-align: middle; }
+
+/* ---- レベル比較 ---- */
+.lvrow { display: flex; align-items: center; justify-content: center; gap: 4mm; margin: 1mm 0 3mm; }
+.lvcard { text-align: center; }
+.lvcard .big { font-size: 30pt; line-height: 1; }
+.lvcard .lv { font-weight: 900; font-size: 17pt; color: #2C2722; }
+.lvcard .lvn { font-size: 9.8pt; color: #5E564B; font-weight: 700; }
+.lvrow .vs { font-size: 14pt; font-weight: 900; color: #E8716A; }
+
+/* ---- 3チップ(横並び大) ---- */
+.three-chips { display: flex; justify-content: center; gap: 4mm; margin: 3mm 0; flex-wrap: wrap; }
+.bigchip {
+  font-size: 12.5pt; font-weight: 900; padding: 2.5mm 6mm; border-radius: 14px;
+  border: 2.5px solid #2C2722; box-shadow: 3px 3px 0 #2C2722; background: #FFF; color: #2C2722;
+}
+.bigchip.blue { background: #BFE3F3; }
+.bigchip.green { background: #C8E6B8; }
+.bigchip.orange { background: #FCD3A8; }
+
+/* ---- ステップ(ナレッジ3段階) ---- */
+.steps { display: flex; align-items: stretch; gap: 5px; margin-bottom: 6mm; }
+.steps .step { flex: 1; background: #FFF; border: 2.5px solid #2C2722; border-radius: 14px;
+  padding: 4.5mm 4.5mm; box-shadow: 3px 4px 0 #2C2722; }
+.steps .step .stepno { display: inline-block; background: #BFE3F3; border: 2px solid #2C2722;
+  border-radius: 50%; width: 28px; height: 28px; text-align: center; line-height: 25px;
+  font-size: 13pt; font-weight: 900; margin-bottom: 2mm; box-shadow: 2px 2px 0 #2C2722; }
+.steps .step.s2 .stepno { background: #C8E6B8; }
+.steps .step.s3 .stepno { background: #FCD3A8; }
+.steps .step .ttl { font-size: 12pt; font-weight: 900; color: #2C2722; }
+.steps .step p { font-size: 9.7pt; line-height: 1.6; color: #5E564B; margin-top: 2mm; }
+.steps .sarrow { display: flex; align-items: center; font-size: 22pt; color: #E8716A; font-weight: 900; }
+
+/* ---- 今日やること(番号大) ---- */
+.todo { text-align: center; }
+.todo .tnum { font-size: 19pt; font-weight: 900; color: #FFF; background: #2C2722;
+  width: 38px; height: 38px; line-height: 38px; border-radius: 50%; margin: 0 auto 1.8mm;
+  box-shadow: 3px 3px 0 #C8BFA8; }
+.todo h4 { font-size: 13pt; font-weight: 900; color: #2C2722; margin-bottom: 1.5mm; }
+
+.bubble {
+  display: inline-block; background: #FFF; border: 2px solid #2C2722;
+  border-radius: 14px; padding: 2px 11px; font-size: 9pt; box-shadow: 2px 2px 0 #2C2722;
+}
+table { width: 100%; border-collapse: collapse; font-size: 9.8pt; }
+th, td { padding: 3.8px 9px; border-bottom: 2px dashed #C8BFA8; text-align: left; vertical-align: top; line-height: 1.42; }
+th { background: #FFE066; color: #2C2722; border-bottom: 2.5px solid #2C2722; font-weight: 700; }
+td b { color: #2C2722; }
+table.qa td:first-child { font-weight: 700; color: #2C2722; background: #FFFBEC; }
+table.qa td b { color: #D24E1A; }
+.footer { position: absolute; bottom: 4.5mm; right: 14mm; font-size: 9pt; color: #A89B7C; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h1><span class="tag">保存版</span>🎙️ インスタ×AI運用 <span class="hl">緊急ライブ勉強会</span></h1>
+
+  <div class="lead">
+    <div class="punch">「AIを使ってるのに<span class="mark-p">伸びない・時短できない</span>」人へ</div>
+    <div class="meta">
+      <div><span class="label yellow">形式</span>YouTubeライブ＋LINEチャット参加型（約<b>2時間5分</b>）</div>
+      <div><span class="label blue">話し手</span>はだし夫婦（インスタ歴8〜9年・原ジャンル200万人規模）＋ゲスト数名</div>
+      <div><span class="label green">背景</span>大阪<b>4日間・計41時間</b>の受講生対話でAI活用の"今"が見えた</div>
+    </div>
+  </div>
+
+  <div class="core-box">
+    <div class="huge">使いどころは「生成」じゃない</div>
+    <div class="huge2"><span class="kw">→</span> <span class="mark-b">リサーチ・分析・構成・改善</span></div>
+    <div class="sub2">勝負を分けるのは <b class="kw">ナレッジ＝過去の自分の投稿（一次情報）</b> をAIに渡せるか。</div>
+  </div>
+
+  <div class="grid grid-2" style="gap:6mm;">
+    <div class="card accent-blue">
+      <h3><span class="emoji">🎮</span>レベル格差は2極化</h3>
+      <div class="lvrow">
+        <div class="lvcard"><div class="big">💪</div><div class="lv">LV.90</div><div class="lvn">ミュウツー</div></div>
+        <div class="vs">VS</div>
+        <div class="lvcard"><div class="big">🐛</div><div class="lv">LV.5</div><div class="lvn">キャタピー</div></div>
+      </div>
+      <p class="punch sm center">月7桁を売る人でもAIは<span class="mark-p">初心者だらけ</span></p>
+      <p class="sub center">リールは再生数で上手さが見えるが、<b>AIスキルは数字に出ない</b>のが怖い。</p>
+    </div>
+    <div class="card accent-green">
+      <h3><span class="emoji">🌊</span>今が"歪み"のチャンス</h3>
+      <p class="punch center" style="margin-bottom:1mm;">はだし夫婦との差も<br><span class="xl kw">たった1年半</span></p>
+      <ul class="tight">
+        <li>先発組も、目を背ければ<b>ひっくり返される</b></li>
+        <li>後発組も、AIという武器で<b>逆転できる</b></li>
+        <li>まだ誰も大きな差をつけていない</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer">インスタ×AI運用 勉強会まとめ ・ 1 / 4</div>
+</div>
+
+<div class="page">
+  <h1>🤖 AIとの<span class="hl">正しい付き合い方</span></h1>
+
+  <div class="hero">AIは「検索」でも「自販機」でもない。<br><span class="heroXL">"一緒に育てる新人"</span> として使う</div>
+
+  <div class="grid grid-2">
+    <div class="card accent-blue">
+      <h3><span class="emoji">🔍</span>AIは"検索"じゃない</h3>
+      <p class="punch">「答えをくれる場所」は<span class="mark-p">大きな勘違い</span></p>
+      <ul class="tight">
+        <li>1回で完成品をもらう発想がそもそもズレ</li>
+        <li><b class="mark-y">"一緒に"考え、作業を進める</b>場所。「一緒に」が肝</li>
+      </ul>
+    </div>
+    <div class="card accent-orange">
+      <h3><span class="emoji">🧑‍🎓</span>優秀だけど"今日入社した新人"</h3>
+      <p class="punch">ざっくり指示＝<span class="mark-p">ざっくり回答</span></p>
+      <ul class="tight">
+        <li>"それっぽい説明"だけは上手い（中身はオワコンも）</li>
+        <li>最大のNGワード＝<b class="kw">「いい感じに作って」</b></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>「AIが使えない」のはAIのせいじゃない</h2>
+  <div class="card accent-red" style="padding:3.5mm 5.5mm;">
+    <p class="punch center" style="margin-bottom:1mm;">ズレているのは<span class="kw">この3つ</span> 👇</p>
+    <div class="three-chips">
+      <span class="bigchip blue">① 使う場所</span>
+      <span class="bigchip green">② 渡す前提情報</span>
+      <span class="bigchip orange">③ 頼み方</span>
+    </div>
+    <p class="sub center">たとえ：<b>大谷に弾拾い</b>／<b>メッシにキーパー</b> ＝ それくらい"もったいない"起用</p>
+  </div>
+
+  <h2>「80点ルール」の本当の意味</h2>
+  <div class="card accent-yellow" style="padding:3.5mm 5.5mm;">
+    <p class="punch center" style="margin-bottom:1mm;">「80点までAI・20点を人間」は<span class="mark-p">誤解</span></p>
+    
+<svg viewBox="0 0 620 128" width="100%" style="max-height:104px;">
+  <rect x="22" y="30" width="52" height="46" rx="8" fill="#FBC9D4" stroke="#2C2722" stroke-width="2.5"/>
+  <rect x="82" y="30" width="438" height="46" rx="8" fill="#BFE3F3" stroke="#2C2722" stroke-width="2.5"/>
+  <rect x="528" y="30" width="54" height="46" rx="8" fill="#FBC9D4" stroke="#2C2722" stroke-width="2.5"/>
+  <text x="48"  y="59" text-anchor="middle" font-size="13" font-weight="900" fill="#2C2722" font-family="Noto Sans JP">人間</text>
+  <text x="301" y="59" text-anchor="middle" font-size="20" font-weight="900" fill="#2C2722" font-family="Noto Sans JP">AI におまかせ</text>
+  <text x="555" y="59" text-anchor="middle" font-size="13" font-weight="900" fill="#2C2722" font-family="Noto Sans JP">人間</text>
+  <text x="22"  y="94"  text-anchor="middle" font-size="11" fill="#7A7160">0</text>
+  <text x="78"  y="94"  text-anchor="middle" font-size="11" fill="#7A7160">10</text>
+  <text x="526" y="94"  text-anchor="middle" font-size="11" fill="#7A7160">90</text>
+  <text x="582" y="94"  text-anchor="middle" font-size="11" fill="#7A7160">100</text>
+  <text x="50"  y="114" text-anchor="middle" font-size="10.5" fill="#4A453F" font-family="Noto Sans JP">立ち上げ・</text>
+  <text x="50"  y="127" text-anchor="middle" font-size="10.5" fill="#4A453F" font-family="Noto Sans JP">最初の相談</text>
+  <text x="302" y="116" text-anchor="middle" font-size="11.5" fill="#4A453F" font-family="Noto Sans JP">11〜90点をAIに（リサーチ・分析・構成・改善）</text>
+  <text x="554" y="114" text-anchor="middle" font-size="10.5" fill="#4A453F" font-family="Noto Sans JP">最終仕上げ・</text>
+  <text x="554" y="127" text-anchor="middle" font-size="10.5" fill="#4A453F" font-family="Noto Sans JP">判断</text>
+  <text x="302" y="18" text-anchor="middle" font-size="13" font-weight="900" fill="#2C2722" font-family="Noto Sans JP">🥪 人間で AI をサンドイッチする</text>
+</svg>
+
+    <p class="sub center"><b>立ち上げ(0〜10)と仕上げ・判断(91〜100)は人間</b>。丸投げすると滑る。</p>
+  </div>
+  <div class="footer">インスタ×AI運用 勉強会まとめ ・ 2 / 4</div>
+</div>
+
+<div class="page">
+  <h1>📚 最重要：<span class="hl">ナレッジ（一次情報）</span>が命</h1>
+
+  <div class="lead" style="margin-bottom:6mm; padding:5mm 6mm;">
+    <div class="punch" style="font-size:17.5pt; line-height:1.35;">AIが「学んでくれない」のは<br><span class="mark-p">ナレッジを渡していない</span>から</div>
+    <p class="sub" style="margin-top:1mm;">ナレッジ＝<b>過去のストーリーズ・ブログ・DM・フィード・リール台本</b>など、自分が作った一次情報。これを渡して初めて出力が"自分らしく"なる。 <b class="kw">情報量を持つ人が勝つ時代。</b></p>
+  </div>
+
+  <h2>渡し方は3段階でレベルアップ</h2>
+  <div class="steps">
+    <div class="step s1"><span class="stepno">1</span><div class="ttl">ファイルを都度渡す</div>
+      <p>整えてチャットのたびに手で渡す。まずはここから。</p></div>
+    <div class="sarrow">➡</div>
+    <div class="step s2"><span class="stepno">2</span><div class="ttl">GPTのプロジェクト機能</div>
+      <p>前提を入れておき、毎回渡さなくてよくする。</p></div>
+    <div class="sarrow">➡</div>
+    <div class="step s3"><span class="stepno">3</span><div class="ttl">クロードコード／Codex</div>
+      <p>PC内の情報を自動で引き出して作業。レベル50以上向け。</p></div>
+  </div>
+
+  <div class="grid grid-3" style="gap:6mm;">
+    <div class="card accent-pink">
+      <h3><span class="emoji">🗣️</span>"AIっぽい文章"問題</h3>
+      <p class="punch sm">原因は<span class="xl kw">素材不足</span></p>
+      <ul class="tight">
+        <li>口癖・本音・読者との距離感が渡せてない</li>
+        <li>直し方：①発信者らしく <span class="kw">→</span> ②自分らしく</li>
+      </ul>
+    </div>
+    <div class="card accent-orange">
+      <h3><span class="emoji">😅</span>"肯定されすぎ"問題</h3>
+      <p class="punch sm">褒め言葉は<span class="xl kw">話半分</span></p>
+      <ul class="tight">
+        <li>継続させたいため肯定するよう設計</li>
+        <li>別チャットで相談すると評価が一変</li>
+      </ul>
+    </div>
+    <div class="card accent-green">
+      <h3><span class="emoji">💰</span>課金はどれから？</h3>
+      <p class="punch sm">迷ったら<span class="xl kw">まずGPT</span></p>
+      <ul class="tight">
+        <li>クロードは"クロードコード"を使う時に100%</li>
+        <li>月20ドルは<b>必須経費</b>（キャンバ課金と同じ）</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer">インスタ×AI運用 勉強会まとめ ・ 3 / 4</div>
+</div>
+
+<div class="page">
+  <h1>🚀 今日からやること &amp; <span class="hl">次回告知</span></h1>
+
+  <div class="grid grid-3" style="gap:4mm;">
+    <div class="card accent-blue todo"><div class="tnum">1</div><h4>前に分析させる</h4>
+      <p class="sub">投稿を作る<b>"前"</b>にAIへ分析・リサーチ。生成より先に「考えてもらう」。</p></div>
+    <div class="card accent-green todo"><div class="tnum">2</div><h4>一次情報をメモ</h4>
+      <p class="sub">台本・トーク・音声・ボツ台本・ストーリーの文字…<b>何でも残す</b>。</p></div>
+    <div class="card accent-orange todo"><div class="tnum">3</div><h4>厳しい編集者役</h4>
+      <p class="sub">AIに「<b>厳しい編集者</b>」として赤入れさせる。肯定だけさせない。</p></div>
+  </div>
+
+  <div class="hero" style="padding:3mm 7mm;">3つがそろって初めて伸びる ＝ <span class="heroXL">インスタ力 × AI力 × 一次情報</span></div>
+
+  <div class="grid grid-2" style="gap:4mm;">
+    <div class="card">
+      <h3><span class="emoji">❓</span>Q&amp;A よくある質問</h3>
+      <table class="qa">
+        <tr><th>質問</th><th>答え</th></tr>
+        <tr><td>ナレッジは何を？</td><td><b>過去の自分の投稿</b>全部。一ジャンルずつ</td></tr>
+        <tr><td>無料と有料の違い？</td><td>画像・長文は<b>有料必須</b>。月20ドルは安い</td></tr>
+        <tr><td>頼ると考えなくなる？</td><td><b>逆</b>。壁打ちで考えが整理・深化する</td></tr>
+        <tr><td>AI製投稿は規約OK？</td><td>今は<b>問題なし</b>。薄い内容は伸びない</td></tr>
+        <tr><td>個性がなくなる？</td><td>ナレッジを渡せば<b>むしろ増幅</b></td></tr>
+      </table>
+    </div>
+    <div class="card accent-yellow">
+      <h3><span class="emoji">🗓️</span>次回：7月末に新サービス／AI勉強会</h3>
+      <p class="punch sm" style="margin-bottom:2mm;">自分たちの<span class="mark-p">"80点"を皆に渡す</span>新サービス</p>
+      <ul class="tight">
+        <li>今回とは<b>別物</b>。位置づけは「マイナス1期」をしれっと</li>
+        <li><b>名称はまだ非公開</b>。来週"原ジャンル合宿"で仕上げ</li>
+        <li>参加＝YouTube／LINEのリンク・QRから<b class="kw">「先行待機」</b>登録</li>
+        <li>フォームでAIの質問→参加者限定でランダム回答</li>
+      </ul>
+      <div class="bubble">※確定は<b>"7月末"</b>だけ。具体的な日付・時間は未発表</div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="mtitle">この5つだけ持ち帰る</span>
+    <div class="summary-list">
+      <div><span class="sn">①</span>使いどころは生成じゃなく<b class="kw">リサーチ・分析・構成・改善</b></div>
+      <div><span class="sn">②</span><b class="kw">ナレッジ（一次情報）が命</b></div>
+      <div><span class="sn">③</span>AIは<b>優秀な新人部下</b>＝丸投げせず育てる</div>
+      <div><span class="sn">④</span><b>80点ルール</b>（人間でサンドイッチ）</div>
+      <div><span class="sn">⑤</span><b class="kw">今がチャンス</b>（差は1年半・誰も大差なし）</div>
+    </div>
+  </div>
+  <div class="footer">インスタ×AI運用 勉強会まとめ ・ 4 / 4</div>
+</div>
+
+<script>mermaid.initialize({startOnLoad:true, theme:'base', themeVariables:{primaryColor:'#FFF6B8',primaryTextColor:'#2C2722',primaryBorderColor:'#2C2722',lineColor:'#2C2722',secondaryColor:'#BFE3F3',tertiaryColor:'#C8E6B8'}});</script>
+</body>
+</html>
